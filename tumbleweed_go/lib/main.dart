@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
@@ -29,12 +30,12 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final api = ApiAccessor();
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  Future<Position> _getCurrentLocation() async {
+    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
+
+    return await geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
   }
 
   @override
@@ -46,12 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: RaisedButton(
-            onPressed: () => {
-              api.postTumbleweed(45, 90).then((result) {
-                Scaffold.of(context)
-                    .showSnackBar(SnackBar(content: Text(result)));
-              }).catchError((error) => Scaffold.of(context)
-                  .showSnackBar(SnackBar(content: Text(error.toString())))),
+            onPressed: () {
+              _getCurrentLocation().then((location) {
+                print('${location.latitude}  ${location.longitude}');
+                api.postTumbleweed(location.latitude, location.longitude).then(
+                    (result) {
+                  Scaffold.of(context)
+                      .showSnackBar(SnackBar(content: Text(result)));
+                }).catchError((error) => Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(error.toString()))));
+              });
             },
             child: Text('Upload Tumbleweed'),
           ),
