@@ -14,6 +14,8 @@
 	<string>tumbleweed_go</string>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to location when open.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app uses the camera to verify the presence of tumbleweeds.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
