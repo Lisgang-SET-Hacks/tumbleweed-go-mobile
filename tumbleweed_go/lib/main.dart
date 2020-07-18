@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
@@ -12,13 +14,13 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Tumbleweed GO'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title) : super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
   @override
@@ -26,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final api = ApiAccessor();
   int _counter = 0;
 
   void _incrementCounter() {
@@ -40,39 +43,44 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have clicked the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      body: Builder(builder: (BuildContext context) {
+        return Center(
+          child: RaisedButton(
+            onPressed: () => {
+              api.postTumbleweed(45, 90).then((result) {
+                Scaffold.of(context)
+                    .showSnackBar(SnackBar(content: Text(result)));
+              }).catchError((error) => Scaffold.of(context)
+                  .showSnackBar(SnackBar(content: Text(error.toString())))),
+            },
+            child: Text('Upload Tumbleweed'),
+          ),
+        );
+      }),
     );
+  }
+}
+
+class ApiAccessor {
+  final baseUrl = 'https://tumbleweed-go-backend.herokuapp.com/';
+
+  Future<Map<String, dynamic>> getTumbleweeds() async {
+    var response = await http.get(baseUrl + 'tumbleweed/get');
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      return Future.error('Error ${response.statusCode}');
+    }
+  }
+
+  Future<String> postTumbleweed(double lat, long) async {
+    var response = await http.post(baseUrl + 'tumbleweed/upload/$lat/$long');
+
+    if (response.statusCode == 200) {
+      return 'Successfully uploaded tumbleweed';
+    } else {
+      return Future.error('Error ${response.statusCode}');
+    }
   }
 }
