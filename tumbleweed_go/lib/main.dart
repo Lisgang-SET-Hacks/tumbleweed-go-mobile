@@ -49,8 +49,6 @@ class _HomePageState extends State<HomePage> {
 
   void _pushCamera() {
     Navigator.of(context)
-        .push(MaterialPageRoute<void>(builder: (BuildContext context) {
-      return CameraScreen();
-    }));
+        .push(MaterialPageRoute(builder: (context) => CameraScreen()));
   }
 }

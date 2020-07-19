@@ -16,6 +16,7 @@ class _CameraScreenState extends State {
   List cameras;
   int selectedCameraIdx;
   String imagePath;
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -73,15 +74,20 @@ class _CameraScreenState extends State {
           alignment: AlignmentDirectional.bottomCenter,
           children: <Widget>[
             _cameraPreviewWidget(),
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: FloatingActionButton(
-                  child: Icon(Icons.camera),
-                  backgroundColor: Colors.blueGrey,
-                  onPressed: () {
-                    _onCapturePressed(context);
-                  }),
-            ),
+            Align(
+              alignment: isLoading ? Alignment.center : Alignment.bottomCenter,
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: FloatingActionButton(
+                          child: Icon(Icons.camera),
+                          backgroundColor: Colors.blueGrey,
+                          onPressed: () {
+                            _onCapturePressed(context);
+                          }),
+                    ),
+            )
           ]),
     );
   }
@@ -119,7 +125,34 @@ class _CameraScreenState extends State {
       print(path);
       await controller.takePicture(path);
 
-      ApiAccessor.uploadImage(path);
+      ApiAccessor.uploadImage(path).then((status) {
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.of(context).pop();
+        if (status == 200) {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                  title: Text('Nice find!'),
+                  content:
+                      Text('We\'ve added the tumbleweed to our database.')),
+              barrierDismissible: true);
+        } else {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text('Whoops!'),
+                    content: Text(
+                        'We couldn\'t find a tumbleweed in the image you took.'),
+                  ),
+              barrierDismissible: true);
+        }
+      });
+
+      setState(() {
+        isLoading = true;
+      });
     } catch (e) {
       // If an error occurs, log the error to the console.
       print(e);
