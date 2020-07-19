@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 
 class ApiAccessor {
-  static final baseUrl = 'https://tumbleweed-go-backend.herokuapp.com/';
+  static final baseUrl = 'http://192.168.0.19:8000/';
 
   static Future<Position> getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
@@ -28,7 +28,7 @@ class ApiAccessor {
         'tumbleweed/upload/${location.latitude}/${location.longitude}';
 
     final request = http.MultipartRequest('POST', Uri.parse(url));
-    final image = await http.MultipartFile.fromPath('file_field', imagePath);
+    final image = await http.MultipartFile.fromPath('image', imagePath);
     request.files.add(image);
 
     print('sent request');
