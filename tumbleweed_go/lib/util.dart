@@ -38,8 +38,8 @@ class ApiAccessor {
     });
 
     if (response != null) {
-      final responseData = await response.stream.toBytes();
-      final responseString = String.fromCharCodes(responseData);
+/*       final responseData = await response.stream.toBytes();
+      final responseString = String.fromCharCodes(responseData); */
 
       return response.statusCode;
     } else {

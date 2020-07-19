@@ -36,28 +36,39 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
       drawer: Drawer(
-          child: ListView(
-        children: <Widget>[
-          ListTile(
-              title: Text("Upload Tumbleweed"), trailing: Icon(Icons.camera)),
-        ],
-      )),
+        child: ListView(
+          children: <Widget>[
+            ListTile(
+              title: Text("Upload Tumbleweed"),
+              trailing: Icon(Icons.camera),
+            ),
+          ],
+        ),
+      ),
       body: Builder(
         builder: (BuildContext context) {
-          return Center(
-            child: RaisedButton(
-              color: Colors.brown,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(6.0),
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/background.png'),
+                fit: BoxFit.cover,
               ),
-              onPressed: () {
-                _pushCamera();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(20.0),
-                child: Text(
-                  'Upload Tumbleweed',
-                  style: TextStyle(color: Colors.white, fontSize: 18.0),
+            ),
+            child: Center(
+              child: RaisedButton(
+                color: Colors.brown,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6.0),
+                ),
+                onPressed: () {
+                  _pushCamera();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(20.0),
+                  child: Text(
+                    'Upload Tumbleweed',
+                    style: TextStyle(color: Colors.white, fontSize: 18.0),
+                  ),
                 ),
               ),
             ),
