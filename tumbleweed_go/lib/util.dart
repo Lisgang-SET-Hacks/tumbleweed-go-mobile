@@ -32,10 +32,12 @@ class ApiAccessor {
     final image = await http.MultipartFile.fromPath('image', imagePath);
     request.files.add(image);
 
-    final response =
-        await request.send().timeout(Duration(seconds: 3), onTimeout: () {
-      return null;
-    });
+    final response = await request.send().timeout(
+      Duration(seconds: 10),
+      onTimeout: () {
+        return null;
+      },
+    );
 
     if (response != null) {
 /*       final responseData = await response.stream.toBytes();
