@@ -73,7 +73,10 @@ class _CameraScreenState extends State {
       body: Stack(
           alignment: AlignmentDirectional.bottomCenter,
           children: <Widget>[
-            _cameraPreviewWidget(),
+            Opacity(
+              opacity: isLoading ? 0.5 : 1.0,
+              child: _cameraPreviewWidget(),
+            ),
             Align(
               alignment: isLoading ? Alignment.center : Alignment.bottomCenter,
               child: isLoading
@@ -82,7 +85,6 @@ class _CameraScreenState extends State {
                       padding: EdgeInsets.all(16.0),
                       child: FloatingActionButton(
                           child: Icon(Icons.camera),
-                          backgroundColor: Colors.blueGrey,
                           onPressed: () {
                             _onCapturePressed(context);
                           }),

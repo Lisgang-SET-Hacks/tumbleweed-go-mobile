@@ -11,7 +11,8 @@ class TumbleweedGo extends StatelessWidget {
     return MaterialApp(
       title: 'Tumbleweed Go',
       theme: ThemeData(
-        primaryColor: Colors.blue,
+        primaryColor: Colors.brown,
+        accentColor: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: HomePage(title: 'Tumbleweed GO'),
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(widget.title)),
+      drawer: Drawer(),
       body: Builder(builder: (BuildContext context) {
         return Center(
           child: RaisedButton(
