@@ -3,8 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 
 class ApiAccessor {
-  //static final baseUrl = 'http://192.168.0.19:8000/';
-  static final baseUrl = 'https://tumbleweed-go-backend.herokuapp.com/';
+  static final baseUrl = 'https://tumbleweed-go-284013.ue.r.appspot.com/';
 
   static Future<Position> getCurrentLocation() async {
     final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
