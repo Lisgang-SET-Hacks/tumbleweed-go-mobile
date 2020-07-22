@@ -14,6 +14,7 @@ class TumbleweedGo extends StatelessWidget {
         primaryColor: Colors.brown,
         accentColor: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: 'Rowdies',
       ),
       home: HomePage(title: 'Tumbleweed GO'),
     );
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: <Widget>[
             ListTile(
-              title: Text("Upload Tumbleweed"),
+              title: Text('Upload Tumbleweed'),
               trailing: Icon(Icons.camera),
             ),
           ],
@@ -67,7 +68,11 @@ class _HomePageState extends State<HomePage> {
                   padding: EdgeInsets.all(20.0),
                   child: Text(
                     'Upload Tumbleweed',
-                    style: TextStyle(color: Colors.white, fontSize: 18.0),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontFamily: 'Rowdies',
+                    ),
                   ),
                 ),
               ),
