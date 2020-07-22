@@ -40,8 +40,22 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           children: <Widget>[
             ListTile(
-              title: Text('Upload Tumbleweed'),
+              title: Text(
+                'Upload Tumbleweed',
+                style: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
               trailing: Icon(Icons.camera),
+            ),
+            ListTile(
+              title: Text(
+                'About Tumbleweed GO',
+                style: TextStyle(
+                  fontSize: 18.0,
+                ),
+              ),
+              trailing: Icon(Icons.info),
             ),
           ],
         ),
