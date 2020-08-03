@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ApiAccessor {
   static final baseUrl = 'https://tumbleweed-go-284013.ue.r.appspot.com/';
